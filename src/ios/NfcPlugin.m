@@ -29,11 +29,17 @@
 
 #pragma mark -= Cordova Plugin Methods
 
+// TODO: Hotfix for https://github.com/chariotsolutions/phonegap-nfc/issues/363
+- (void)channel:(CDVInvokedUrlCommand*)command {
+    NSLog(@"channel :-)");
+}
+
 // Unfortunately iOS users need to start a session to read tags
 - (void)beginSession:(CDVInvokedUrlCommand*)command {
     NSLog(@"beginSession");
 
     _nfcSession = [[NFCNDEFReaderSession new]initWithDelegate:self queue:nil invalidateAfterFirstRead:TRUE];
+    _nfcSession?.alertMessage = "Hold your iPhone near the item to learn more about it."
     ndefStartSessionCallbackId = [command.callbackId copy];
     [_nfcSession beginSession];
 }
